@@ -1,6 +1,6 @@
 
-
-let arrChoices = ["rock", "paper", "scissors"]
+const arrResult=["You Win!", "You Loose!", "It's a tie! Try again!"]
+const arrChoices = ["rock", "paper", "scissors"]
 
 function getComputerChoice() {
     // returns randomly "Rock", "Paper" or "Scissors"
@@ -14,44 +14,87 @@ function getComputerChoice() {
 
 function playRound(playerSelection, computerSelection) {
     // plays a single round of Rock,Paper,Scissors
-    
+
     // allow for case-insensitive user-Input:
     playerSelection = playerSelection.toLowerCase()
 
 
     if (playerSelection == computerSelection) {
-        return "It's a tie!"
+        return arrResult[2]
     }
 
     if (playerSelection == "rock") {
         switch(computerSelection) {
             case "scissors":
-                return "You Win!";
+                return arrResult[0];
             case "paper":
-                return "you Loose!";
+                return arrResult[1];
         }
     }
 
     if (playerSelection == "paper") {
         switch(computerSelection) {
             case "rock":
-                return "You Win!";
+                return arrResult[0];
             case "scissors":
-                return "you Loose!";
+                return arrResult[1];
         }
     }
 
     if (playerSelection == "scissors") {
         switch(computerSelection) {
             case "paper":
-                return "You Win!";
+                return arrResult[0];
             case "rock":
-                return "you Loose!";
+                return arrResult[1];
         }
     }    
 
 }
 
-const playerSelection="Rock";
-const computerSelection =getComputerChoice();
-console.log(playRound(playerSelection,computerSelection));
+//const playerSelection="Rock";
+//const computerSelection =getComputerChoice();
+//console.log(playRound(playerSelection,computerSelection));
+
+function game() {
+
+    let playerScore = 0;
+    let computerScore = 0;
+    let keepGoing = true;
+    let winner = "";
+
+    while (keepGoing) {
+        
+        const playerSelection = prompt("Choose Rock, Paper, or Scissor")
+
+        let result = playRound(playerSelection,getComputerChoice())
+
+        switch (result) {
+            case arrResult[0]:
+                playerScore++;
+                break;
+            case arrResult[1]:
+                computerScore++;
+                break;
+            default:
+                break;
+        }
+        console.log(result)
+
+        if (playerScore == 3) {
+            winner = "You!";
+        }
+        if (computerScore == 3) {
+            winner = "Computer!"
+        }
+        if (winner != "") {
+            keepGoing = false;
+        }
+
+    }
+
+    return winner;
+
+}
+
+console.log("Game finished. The winner is "+game())
