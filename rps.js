@@ -1,16 +1,22 @@
 
-const arrResult=["You Win!", "You Loose!", "It's a tie! Try again!"]
+const arrResult = ["You Win!", "You Loose!", "It's a tie! Try again!"]
 const arrChoices = ["rock", "paper", "scissors"]
 
 function getComputerChoice() {
     // returns randomly "Rock", "Paper" or "Scissors"
 
-    let choice = Math.round(Math.random())+Math.round(Math.random()) // sufficiently random
+    let choice = Math.round(Math.random()) + Math.round(Math.random()) // sufficiently random
     return arrChoices[choice]
 
 
 }
 
+const buttons = Array.from(document.querySelectorAll("button"));
+buttons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+        console.log(playRound(button.id, getComputerChoice()));
+    });
+});
 
 function playRound(playerSelection, computerSelection) {
     // plays a single round of Rock,Paper,Scissors
@@ -24,7 +30,7 @@ function playRound(playerSelection, computerSelection) {
     }
 
     if (playerSelection == "rock") {
-        switch(computerSelection) {
+        switch (computerSelection) {
             case "scissors":
                 return arrResult[0];
             case "paper":
@@ -33,7 +39,7 @@ function playRound(playerSelection, computerSelection) {
     }
 
     if (playerSelection == "paper") {
-        switch(computerSelection) {
+        switch (computerSelection) {
             case "rock":
                 return arrResult[0];
             case "scissors":
@@ -42,13 +48,13 @@ function playRound(playerSelection, computerSelection) {
     }
 
     if (playerSelection == "scissors") {
-        switch(computerSelection) {
+        switch (computerSelection) {
             case "paper":
                 return arrResult[0];
             case "rock":
                 return arrResult[1];
         }
-    }    
+    }
 
 }
 
@@ -64,10 +70,10 @@ function game() {
     let winner = "";
 
     while (keepGoing) {
-        
+
         const playerSelection = prompt("Choose Rock, Paper, or Scissor")
 
-        let result = playRound(playerSelection,getComputerChoice())
+        let result = playRound(playerSelection, getComputerChoice())
 
         switch (result) {
             case arrResult[0]:
@@ -97,4 +103,4 @@ function game() {
 
 }
 
-console.log("Game finished. The winner is "+game())
+//console.log("Game finished. The winner is " + game())
