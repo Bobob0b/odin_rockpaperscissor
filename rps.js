@@ -1,14 +1,13 @@
 // Basic Variables for the Game
 
-const scorePlayer = document.querySelector(".scorePlayer");
-const scoreComputer = document.querySelector(".scoreComputer");
+const score = document.querySelector(".score");
 const arrResult = ["You Win!", "You Loose!", "It's a tie! Try again!"]
 const arrChoices = ["rock", "paper", "scissors"]
 const result = document.querySelector("#result");
 const buttons = Array.from(document.querySelectorAll(".gamebutton"));
 const btnRestart = document.querySelector("#restart");
-let playerScore = 0;
-let computerScore = 0;
+let playerScore;
+let computerScore;
 
 // Register Events
 
@@ -22,6 +21,8 @@ btnRestart.addEventListener("click", (e) => {
 });
 window.addEventListener("load", (e) => {
     initGame();
+    score.textContent = `Let's play a Game!`;
+    result.textContent = "Click the button below!";
 })
 
 // Game mechanics
@@ -85,8 +86,7 @@ function game(buttonvalue) {
     }
 
     result.textContent = res;
-    scorePlayer.textContent = playerScore;
-    scoreComputer.textContent = computerScore;
+    score.textContent = `You: ${playerScore} - Computer: ${computerScore}`;
 
     if (playerScore == 3) {
         result.textContent = `Congratulations! You won! Final Score: ${playerScore} : ${computerScore}`;
@@ -101,8 +101,6 @@ function game(buttonvalue) {
 function initGame() {
 
     // Initialize Game
-    scorePlayer.textContent = 0;
-    scoreComputer.textContent = 0;
 
     buttons.forEach(button => {
         button.disabled = true;
@@ -113,8 +111,7 @@ function initGame() {
 function newGame() {
     playerScore = 0;
     computerScore = 0;
-    scorePlayer.textContent = playerScore;
-    scoreComputer.textContent = computerScore;
+    score.textContent = `You: ${playerScore} - Computer: ${computerScore}`;
     result.textContent = "Choose!";
     buttons.forEach(button => {
         button.disabled = false;
