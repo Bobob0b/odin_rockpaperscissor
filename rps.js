@@ -1,22 +1,36 @@
+// Basic Variables for the Game
 
+const scorePlayer = document.querySelector(".scorePlayer");
+const scoreComputer = document.querySelector(".scoreComputer");
 const arrResult = ["You Win!", "You Loose!", "It's a tie! Try again!"]
 const arrChoices = ["rock", "paper", "scissors"]
+const result = document.querySelector("#result");
+const buttons = Array.from(document.querySelectorAll(".gamebutton"));
+const btnRestart = document.querySelector("#restart");
+let playerScore = 0;
+let computerScore = 0;
+
+// Register Events
+
+buttons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+        game(button.value);
+    });
+});
+btnRestart.addEventListener("click", (e) => {
+    newGame();
+});
+window.addEventListener("load", (e) => {
+    initGame();
+})
+
+// Game mechanics
 
 function getComputerChoice() {
     // returns randomly "Rock", "Paper" or "Scissors"
-
     let choice = Math.round(Math.random()) + Math.round(Math.random()) // sufficiently random
     return arrChoices[choice]
-
-
 }
-
-const buttons = Array.from(document.querySelectorAll("button"));
-buttons.forEach((button) => {
-    button.addEventListener("click", (e) => {
-        console.log(playRound(button.id, getComputerChoice()));
-    });
-});
 
 function playRound(playerSelection, computerSelection) {
     // plays a single round of Rock,Paper,Scissors
@@ -28,7 +42,6 @@ function playRound(playerSelection, computerSelection) {
     if (playerSelection == computerSelection) {
         return arrResult[2]
     }
-
     if (playerSelection == "rock") {
         switch (computerSelection) {
             case "scissors":
@@ -37,7 +50,6 @@ function playRound(playerSelection, computerSelection) {
                 return arrResult[1];
         }
     }
-
     if (playerSelection == "paper") {
         switch (computerSelection) {
             case "rock":
@@ -46,7 +58,6 @@ function playRound(playerSelection, computerSelection) {
                 return arrResult[1];
         }
     }
-
     if (playerSelection == "scissors") {
         switch (computerSelection) {
             case "paper":
@@ -55,52 +66,58 @@ function playRound(playerSelection, computerSelection) {
                 return arrResult[1];
         }
     }
-
 }
 
-//const playerSelection="Rock";
-//const computerSelection =getComputerChoice();
-//console.log(playRound(playerSelection,computerSelection));
 
-function game() {
+function game(buttonvalue) {
 
-    let playerScore = 0;
-    let computerScore = 0;
-    let keepGoing = true;
-    let winner = "";
+    let res = playRound(buttonvalue, getComputerChoice())
 
-    while (keepGoing) {
-
-        const playerSelection = prompt("Choose Rock, Paper, or Scissor")
-
-        let result = playRound(playerSelection, getComputerChoice())
-
-        switch (result) {
-            case arrResult[0]:
-                playerScore++;
-                break;
-            case arrResult[1]:
-                computerScore++;
-                break;
-            default:
-                break;
-        }
-        console.log(result)
-
-        if (playerScore == 3) {
-            winner = "You!";
-        }
-        if (computerScore == 3) {
-            winner = "Computer!"
-        }
-        if (winner != "") {
-            keepGoing = false;
-        }
-
+    switch (res) {
+        case arrResult[0]:
+            playerScore++;
+            break;
+        case arrResult[1]:
+            computerScore++;
+            break;
+        default:
+            break;
     }
 
-    return winner;
+    result.textContent = res;
+    scorePlayer.textContent = playerScore;
+    scoreComputer.textContent = computerScore;
 
+    if (playerScore == 3) {
+        result.textContent = `Congratulations! You won! Final Score: ${playerScore} : ${computerScore}`;
+        initGame();
+    }
+    if (computerScore == 3) {
+        result.textContent = `Oh no! Computer wins! Final Score: ${playerScore} : ${computerScore}`;
+        initGame();
+    }
 }
 
-//console.log("Game finished. The winner is " + game())
+function initGame() {
+
+    // Initialize Game
+    scorePlayer.textContent = 0;
+    scoreComputer.textContent = 0;
+
+    buttons.forEach(button => {
+        button.disabled = true;
+    })
+    btnRestart.disabled = false;
+}
+
+function newGame() {
+    playerScore = 0;
+    computerScore = 0;
+    scorePlayer.textContent = playerScore;
+    scoreComputer.textContent = computerScore;
+    result.textContent = "Choose!";
+    buttons.forEach(button => {
+        button.disabled = false;
+    })
+    btnRestart.disabled = true;
+}
